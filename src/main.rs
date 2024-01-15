@@ -1,4 +1,4 @@
-use std::{io::{BufReader, BufRead, Read}, fs::File};
+use std::{io::{BufReader, BufRead}, fs::File};
 
 use clap::Parser;
 
@@ -10,8 +10,8 @@ struct Cli {
 
 fn main() {
     let args = Cli::parse();
-    let file = File::open(&args.path).expect("cannot find/open file");
-    let reader = BufReader::new(file);
+    let inner = File::open(&args.path).expect("cannot open file");
+    let reader = BufReader::new(inner);
     
     for line in reader.lines(){
         match line {
