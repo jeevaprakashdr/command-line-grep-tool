@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use clap::Parser;
+
+#[derive(Parser, Debug)]
 struct Cli {
     pattern: String,
     path: std::path::PathBuf,
