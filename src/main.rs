@@ -1,5 +1,6 @@
 use std::{string, fmt::format};
 
+use anyhow::Context;
 use clap::Parser;
 
 #[derive(Parser, Debug)]
@@ -11,10 +12,10 @@ struct Cli {
 #[derive(Debug)]
 struct CustomError(String);
 
-fn main() -> Result<(), Box<CustomError>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
     let content = std::fs::read_to_string(&args.path)
-    .map_err(|err| CustomError(format!("error reading '{}' : {}", args.path.display(), err)))?;
+    .with_context(|| format!("Count not read file '{}'", args.path.display()))?;
 
     for line in content.lines() {
         if line.contains(&args.pattern) {
