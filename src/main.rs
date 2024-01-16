@@ -8,10 +8,7 @@ struct Cli {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
-    let content = match std::fs::read_to_string(&args.path) {
-        Ok(content) => content,
-        Err(err) => return Err(err.into()),
-    };
+    let content = std::fs::read_to_string(&args.path)?;
 
     for line in content.lines() {
         if line.contains(&args.pattern) {
